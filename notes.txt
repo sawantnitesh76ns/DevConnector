@@ -1,0 +1,11 @@
+Pakage to install in react - npm i axios react-router-dom redux-redux redux-thunk redux-devtools-extension moment react-moment
+
+Package to install in node - npm i express express-validator bcryptjs config gravatar jsonwebtoken mongoose request
+
+Dev dependencies in node - npm i -D nodemon concurrently
+
+To use redux devtool of chrome extension follow following Steps
+-create store.js file and required code
+
+Install uuid for id generation
+npm install uuid
