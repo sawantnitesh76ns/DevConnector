@@ -25,35 +25,35 @@ router.get('/', auth, async (req, res) => {
 // @desc        Authenticate User & Get token
 // @access      public
 router.post(
-    '/', 
+    '/',
     [
         check('email', "{lease Inlcude Valide Email Addreess").isEmail(),
-        check('password',"Password Is Required").exists()
+        check('password', "Password Is Required").not().isEmpty()
     ],
     async (req, res) => {
         const error = validationResult(req);
-        if(!error.isEmpty()) {
-            return res.status(400).json({ error: error.array() })
+        if (!error.isEmpty()) {
+            return res.status(400).json({ errors: error.array() })
         }
-        
-        const { email , password } = req.body;
-        
+
+        const { email, password } = req.body;
+
         try {
             //see if user exist
             let user = await User.findOne({ email })
 
-            if(!user) {
+            if (!user) {
                 return res
-                        .status(400)
-                        .json({ error: [{ msg: "Invalid Credentials" }]})
+                    .status(400)
+                    .json({ errors: [{ msg: "Invalid Credentials" }] })
             }
 
             const isMatch = await bcrypt.compare(password, user.password);
-            
-            if(!isMatch) {
+
+            if (!isMatch) {
                 return res
-                        .status(400)
-                        .json({ error: [{ msg: "Invalid Credentials" }]})
+                    .status(400)
+                    .json({ errors: [{ msg: "Invalid Credentials" }] })
             }
 
 
@@ -63,22 +63,22 @@ router.post(
                     id: user.id
                 }
             }
-            
+
             jwt.sign(
-                payload, 
+                payload,
                 config.get('jwtSecret'),
-                { expiresIn: 36000},
+                { expiresIn: 36000 },
                 (err, token) => {
-                    if(err) throw err;
+                    if (err) throw err;
                     res.json({ token })
                 });
-            
+
         } catch (error) {
             console.error(error.message);
             res.status(500).send('Server Error');
         }
 
-        
+
     });
 
 

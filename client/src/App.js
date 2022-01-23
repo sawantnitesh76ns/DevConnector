@@ -1,7 +1,7 @@
 import './App.css';
-import { Fragment } from 'react';
+import { Fragment, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { Navbar } from './component/layout/Navbar';
+import Navbar from './component/layout/Navbar';
 import { HomeBody } from './component/layout/HomeBody';
 import Register from './component/auth/Register';
 import Login from './component/auth/Login';
@@ -11,8 +11,19 @@ import Alert from './component/layout/Alert';
 //Redux
 import { Provider } from 'react-redux';
 import store from './store';
+import { loadUser } from './action/auth';
+import setAuthToken from './utils/setAuthToken';
+
+if (localStorage.token) {
+  setAuthToken(localStorage.token);
+}
 
 const App = () => {
+  //if you are passing empty list [], So then the useEffect will run only once
+  //And then it will work as component did mount
+  useEffect(() => {
+    store.dispatch(loadUser())
+  }, [])
   return (
     <Provider store={store}>
       <Router>

@@ -14,46 +14,46 @@ const User = require("../../models/User")
 // @desc        Resister User
 // @access      public
 router.post(
-    '/', 
+    '/',
     [
-        check('name',  "Name Is Required").not().isEmpty(),
-        check('email', "{lease Inlcude Valide Email Addreess").isEmail(),
-        check('password',"Please Entere Password With 8 or more character").isLength({ min: 6 })
+        check('name', "Name Is Required").not().isEmpty(),
+        check('email', "Please Inlcude Valide Email Addreess").isEmail(),
+        check('password', "Please Entere Password With 8 or more character").isLength({ min: 6 })
     ],
     async (req, res) => {
         const error = validationResult(req);
-        if(!error.isEmpty()) {
-            return res.status(400).json({ error: error.array() })
+        if (!error.isEmpty()) {
+            return res.status(400).json({ errors: error.array() })
         }
-        
-        const { name , email , password } = req.body;
-        
+
+        const { name, email, password } = req.body;
+
         try {
             //see if user exist
             let user = await User.findOne({ email })
 
-            if(user) {
-                return res.status(400).json({ error: [{ msg: "User Already exist" }]})
+            if (user) {
+                return res.status(400).json({ error: [{ msg: "User Already exist" }] })
             }
 
             //Get Users Gravatar
 
             const avatar = gravatar.url(email, {
                 s: '200',
-                r: 'pg',    
+                r: 'pg',
                 d: 'mm'
             })
 
             user = new User({
-                name, 
-                email, 
-                avatar, 
+                name,
+                email,
+                avatar,
                 password
             });
 
             //Encrypt Password 
             const salt = await bcrypt.genSalt(10)
-            
+
             user.password = await bcrypt.hash(password, salt)
 
             await user.save()
@@ -65,22 +65,22 @@ router.post(
                     id: user.id
                 }
             }
-            
+
             jwt.sign(
-                payload, 
+                payload,
                 config.get('jwtSecret'),
-                { expiresIn: 36000},
+                { expiresIn: 36000 },
                 (err, token) => {
-                    if(err) throw err;
+                    if (err) throw err;
                     res.json({ token })
                 });
-            
+
         } catch (error) {
             console.error(error.message);
             res.status(500).send('Server Error');
         }
 
-        
+
     });
 
 module.exports = router;
