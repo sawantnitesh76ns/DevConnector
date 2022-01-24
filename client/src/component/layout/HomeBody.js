@@ -1,7 +1,13 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, Navigate } from 'react-router-dom';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
-export const HomeBody = () => {
+const HomeBody = ({ isAuthenticated }) => {
+    if (isAuthenticated) {
+        return <Navigate to='/dashboard' />
+    }
+
     return (
         <section className="landing">
             <div className="dark-overlay">
@@ -20,3 +26,13 @@ export const HomeBody = () => {
         </section>
     )
 }
+
+HomeBody.propTypes = {
+    isAuthenticated: PropTypes.bool
+}
+
+const mapStateToProps = state => ({
+    isAuthenticated: state.auth.isAuthenticated
+})
+
+export default connect(mapStateToProps)(HomeBody)

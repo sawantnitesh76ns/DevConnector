@@ -38,7 +38,7 @@ router.post('/', [auth, [
     async (req, res) => {
         const error = validationResult(req);
         if (!error.isEmpty()) {
-            return res.status(400).json({ error: error.array() })
+            return res.status(400).json({ errors: error.array() })
         }
 
         // destructure the request
@@ -48,7 +48,7 @@ router.post('/', [auth, [
             location,
             bio,
             status,
-            githubUserName,
+            githubusername,
             skills,
             youtube,
             twitter,
@@ -60,6 +60,8 @@ router.post('/', [auth, [
         } = req.body;
 
 
+
+
         const profileFields = {}
         profileFields.user = req.user.id;
         if (company) profileFields.company = company;
@@ -67,7 +69,7 @@ router.post('/', [auth, [
         if (location) profileFields.location = location;
         if (bio) profileFields.bio = bio;
         if (status) profileFields.status = status;
-        if (githubUserName) profileFields.githubUserName = githubUserName;
+        if (githubusername) profileFields.githubusername = githubusername;
 
 
         if (skills) {
@@ -81,7 +83,6 @@ router.post('/', [auth, [
         if (linkedin) profileFields.linkedin = linkedin;
         if (instagram) profileFields.instagram = instagram;
 
-        console.log
 
         try {
             let profile = await Profile.findOne({ user: req.user.id });
@@ -102,7 +103,6 @@ router.post('/', [auth, [
             res.json({ profile })
 
         } catch (error) {
-            console.error(error.message)
             res.status(500).send("Server Error")
         }
 

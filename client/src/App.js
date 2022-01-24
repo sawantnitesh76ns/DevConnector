@@ -2,10 +2,13 @@ import './App.css';
 import { Fragment, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Navbar from './component/layout/Navbar';
-import { HomeBody } from './component/layout/HomeBody';
+import HomeBody from './component/layout/HomeBody';
 import Register from './component/auth/Register';
 import Login from './component/auth/Login';
 import Alert from './component/layout/Alert';
+import Dashboard from './component/dashboard/Dashboard';
+import CreateProfile from './component/profilr-form/CreateProfile';
+import PrivateRoute from './component/routing/PrivateRoute';
 
 
 //Redux
@@ -37,7 +40,8 @@ const App = () => {
             <Routes>
               <Route exact path='/register' element={<Register />} ></Route>
               <Route exact path='/login' element={<Login />} ></Route>
-
+              <Route exact path='/dashboard' element={<PrivateRoute >< Dashboard /></PrivateRoute>} ></Route>
+              <Route exact path='/create-profile' element={<PrivateRoute >< CreateProfile /></PrivateRoute>} ></Route>
             </Routes>
           </section>
         </Fragment>
