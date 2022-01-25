@@ -176,8 +176,9 @@ router.put('/experience', [auth, [
         const error = validationResult(req);
 
         if (!error.isEmpty()) {
-            return res.status(400).json({ error: error.array() })
+            return res.status(400).json({ errors: error.array() })
         }
+        console.log(req.body)
 
         const {
             title,
@@ -203,6 +204,7 @@ router.put('/experience', [auth, [
             const profile = await Profile.findOne({ user: req.user.id });
             profile.experience.unshift(newExp);
             await profile.save();
+            console.log(profile)
             res.json(profile);
 
 
