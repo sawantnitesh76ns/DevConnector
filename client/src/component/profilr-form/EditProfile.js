@@ -42,7 +42,7 @@ const EditProfile = ({ profile: { profile, loading }, createProfile, getCurrentP
 
         console.log("Form Data")
         console.log(formData)
-    }, [loading])
+    }, [loading, getCurrentProfile])
 
     const {
         company,
