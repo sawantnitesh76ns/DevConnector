@@ -24,7 +24,6 @@ const EditProfile = ({ profile: { profile, loading }, createProfile, getCurrentP
     const [displaySocialInputs, toggleSocialInputs] = useState(false);
     useEffect(() => {
         getCurrentProfile();
-        console.log(profile)
         setFormData({
             company: loading || !profile.company ? '' : profile.company,
             website: loading || !profile.website ? '' : profile.website,
@@ -39,9 +38,6 @@ const EditProfile = ({ profile: { profile, loading }, createProfile, getCurrentP
             youtube: loading || !profile.social ? '' : profile.social.youtube,
             instagram: loading || !profile.social ? '' : profile.social.instagram
         })
-
-        console.log("Form Data")
-        console.log(formData)
     }, [loading, getCurrentProfile])
 
     const {

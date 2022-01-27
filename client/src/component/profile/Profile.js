@@ -7,6 +7,7 @@ import ProfileTop from './ProfileTop';
 import ProfileAbout from './ProfileAbout'
 import ProfileExperience from './ProfileExperience';
 import ProfileEducation from './ProfileEducation';
+import ProfileGithub from './ProfileGithub';
 import { getProfileById } from '../../action/profile'
 
 
@@ -17,9 +18,8 @@ const Profile = ({ getProfileById, profile: { profile, loading }, auth }) => {
     }, [getProfileById, id])
 
     return (
-        console.log(id),
         <Fragment>
-            {profile === null || loading ? <Spinner /> : <Fragment>
+            {profile === null || loading ? (<Spinner />) : (<Fragment>
                 <Link to='/profiles' className='btn btn-light'>
                     Back To Profile
                 </Link>
@@ -53,8 +53,12 @@ const Profile = ({ getProfileById, profile: { profile, loading }, auth }) => {
                             </Fragment>) :
                             <h4> No education credentials</h4>}
                     </div>
+                    {profile.githubusername && (
+                        <ProfileGithub username={profile.githubusername} />
+                    )}
                 </div>
-            </Fragment>}
+            </Fragment>
+            )}
         </Fragment>
     )
 };
