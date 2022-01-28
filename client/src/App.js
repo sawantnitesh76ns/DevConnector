@@ -13,7 +13,8 @@ import EditProfile from './component/profilr-form/EditProfile';
 import AddExperience from './component/profilr-form/AddExperience';
 import AddEducation from './component/profilr-form/AddEducation';
 import Profiles from './component/profiles/Profiles';
-import Profile from './component/profile/Profile'
+import Profile from './component/profile/Profile';
+import Posts from './component/posts/Posts';
 
 
 //Redux
@@ -52,6 +53,7 @@ const App = () => {
               <Route exact path='/edit-profile' element={<PrivateRoute >< EditProfile /></PrivateRoute>} ></Route>
               <Route exact path='/add-experience' element={<PrivateRoute >< AddExperience /></PrivateRoute>} ></Route>
               <Route exact path='/add-education' element={<PrivateRoute >< AddEducation /></PrivateRoute>} ></Route>
+              <Route exact path='/posts' element={<PrivateRoute >< Posts /></PrivateRoute>} ></Route>
             </Routes>
           </section>
         </Fragment>
